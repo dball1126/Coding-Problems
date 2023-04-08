@@ -1,0 +1,41 @@
+// Time: O(n), Space: O(1)
+var maxTurbulenceSize = function(arr) {
+    if (arr.length === 1) return 1
+    let max = 2, currMax = 2, prev = "", allTrue = true
+
+    const handleMoreThan = (i, checkOnce) => {
+        if (arr[i-1] < arr[i] && arr[i] > arr[i+1]) {
+            currMax++; prev = "moreThan"
+        } else {
+            currMax = 2; prev = "";
+            if (!checkOnce) handleLessThan(i, true)
+        }
+    }
+    const handleLessThan = (i, checkOnce) => {
+        if ((arr[i-1] > arr[i]) && (arr[i] < arr[i+1])) {
+            currMax++; prev = "lessThan"
+        } else {
+            currMax = 2; prev = "";
+            if (!checkOnce) handleMoreThan(i, true)
+
+        }
+    }
+    for (let i = 1; i < arr.length-1; i++) {
+        if (prev === "") {
+            handleLessThan(i, true)
+            if (prev === "") handleMoreThan(i, true)
+        } else if (prev === "moreThan") {
+            handleLessThan(i)
+        } else if (prev === "lessThan") {
+            handleMoreThan(i)
+        }
+        if (arr[i-1] !== arr[i]) allTrue = false
+        if (arr[i+1] !== arr[i]) allTrue = false
+        max = Math.max(max, currMax)
+    }
+    if (arr.length === 2 && arr[0] !== arr[1]) return 2
+    if (allTrue) return 1
+    return max
+};
+
+console.log(maxTurbulenceSize( arr = [9,9,8]))

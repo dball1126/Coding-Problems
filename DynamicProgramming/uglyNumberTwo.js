@@ -1,0 +1,6 @@
+/**
+ * 
+ */
+var nthUglyNumber = function(n) {
+    
+};

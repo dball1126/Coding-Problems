@@ -1,0 +1,2 @@
+var reverseList = function(head) {
+}
