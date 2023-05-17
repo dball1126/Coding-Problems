@@ -155,5 +155,9 @@ MaxStack.prototype.peekMax = function() {
  * @return {number}
  */
 MaxStack.prototype.popMax = function() {
-    
+    let max;
+    while (this.maxHeap.size > 1) {
+        max = this.maxHeap.poll();
+        // if (this.has(max.key))
+    }
 };

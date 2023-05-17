@@ -1,60 +1,50 @@
-const dfs = (node, adjList, visited, heightMap, path) => {
-    let heightPath = heightMap.get(node)
-    if (heightPath && !heightPath[1].has(node)) {
-        return heightPath
-    }
-    if (!path.has(node)) path.set(node, new Set())
-    path.get(node).add(node)
-    visited.add(node)
-    const arr = adjList.get(node)
-    if (!arr.length) return 0;
-    let max = 0
-    let maxChild;
-    arr.forEach(child => {
-        if (!visited.has(child)) {
-            let value  = dfs(child, adjList, visited, heightMap, path) + 1
-            if (value > max) {
-                max = value
-                maxChild = child
-            }
+const dfs = (n, adjList, visited) => {
+    let maxHeight = 0, stack = [[n, 0]]
+    while (stack.length) {
+        let [node, height] = stack.pop();
+        maxHeight = Math.max(maxHeight, height)
+        visited.add(node)
+
+        if (adjList.has(node)) {
+            const edges = adjList.get(node)
+            edges.forEach(edge => {
+                if (!visited.has(edge)) {
+                    visited.add(edge)
+                    if (adjList.has(edge) && adjList.get(edge).length) {
+                        stack.push([edge, height + 1])
+                    }
+                    maxHeight = Math.max(maxHeight, height+1)
+                }
+            })
         }
-    })
-    if (maxChild !== undefined) path.get(node).add(maxChild)
-    return max;
+    }
+    return maxHeight;
 }
 // Depth-First-Search
 // Time: O(V * E)
 // Space: O(V + E)
 var findMinHeightTrees = function(n, edges) {
-        const adjList = new Map(), heightMap = new Map(), path = new Map();
-        for (let i = 0; i < n; i++) {
-            adjList.set(i, [])
+
+   let adjList = new Map(), minHeights = [], minHeight = Infinity
+
+   for (let [x, y] of edges) {
+    if (!adjList.has(x)) adjList.set(x, [])
+    if (!adjList.has(y)) adjList.set(y, [])
+        adjList.get(x).push(y)
+        adjList.get(y).push(x)
+   }
+
+    for (let i = 0; i < n; i++) {
+        let height = dfs(i, adjList, new Set())
+
+        if (height === minHeight) {
+            minHeights.push(i)
+        } else if (height < minHeight) {
+            minHeights = [i]
+            minHeight = height
         }
-        for (let [x, y] of edges) {
-            adjList.get(x).push(y);
-            adjList.get(y).push(x);
-        }
-        let minHeightTrees = []
-
-
-        for (let i = 0; i < n; i++) {
-            let prev = minHeightTrees[0]
-            const height = dfs(i, adjList, new Set(), heightMap, path)
-
-            heightMap.set(i, [height, path])
-
-            if (!prev) {
-                minHeightTrees.push([height, i])
-            } else {
-                let prevHeight = prev[0]
-                if (prevHeight === height) {
-                    minHeightTrees.push([height, i])
-                } else if (height < prevHeight) {
-                    minHeightTrees = [[height, i]]
-                }
-            }
-        }
-        return minHeightTrees.map(a => a[1])
+    }
+    return minHeights
 };
 
-console.log(findMinHeightTrees(n = 6, edges = [[3,0],[3,1],[3,2],[3,4],[5,4]]))
+console.log(findMinHeightTrees(n = 1, edges = []))
