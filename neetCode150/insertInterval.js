@@ -1,41 +1,37 @@
 // Intervals...merging arrays
 // Time and Space: O(n)
 var insert = function(intervals, newInterval) {
-    let result = [], [newMin, newMax] = newInterval, merged = false, finalResult = []
+    let [s, e] = newInterval, i = 0, found1, found2, inserted = false, order = []
+
     for (let i = 0; i < intervals.length; i++) {
-        let [min, max] = intervals[i]
-        if (((newMin >= min && newMin <= max) || (newMax >= min && newMax <= max) || 
-        newMin < min && newMax > max) && !merged) {
-            newMin = Math.min(min, newMin)
-            newMax = Math.max(newMax, max)
-            if (i === intervals.length-1) {
-                merged = true;
-                break;
-            }
-            while (i < intervals.length-1) {
-                i++;
-                [min, max] = intervals[i]
-                if (newMax > max) continue;
-                if (newMax < min) {
-                    result.push([min, max])
-                } else {
-                    newMax = Math.max(min, max, newMax)
+        let [x, y] = intervals[i]
+        if (inserted) {
+            order.push([x, y]); continue;
+        }
+        // if (found1 === undefined) {
+            if (e < x) {
+                if (found1 !== undefined) {
+                    
                 }
-                merged = true;
-                break
+                order.push(newInterval)
+                order.push([x, y])
+                inserted = true; continue;
+            } else if ((s >= x && s <= y || x >= s && x <= e) && found1 === undefined) {
+                found1 = i;
             }
-        } else {
-            result.push(intervals[i])
+        // }
+        if (found2 !== undefined && (e <= y && e >= x)) {
+            found2 = i
+        }
+        if (found1 !== undefined && found2 !== undefined || (found1 !== undefined && i === intervals.length-1)) {
+            let [v1, v2] = intervals[found1]
+            order.push([Math.min(v1, s), Math.max(e, v2)])
+            inserted = true;
+        }
+        if (!inserted && found1 === undefined) {
+            order.push([x, y])
         }
     }
-    
-for (let i = 0; i < result.length; i++) {
-    let [x, y] = result[i]
-    if (x > newMax) {
-        result.push([newMin, newMax])
-    } else if (newM)
-}
-    if (!result.length) result.push([newMin, newMax])
-    return result;
+    return order
 };
-console.log(insert(intervals = [[5, 10],[12, 14], [20,30]], newInterval = [11,15]))
+console.log(insert(intervals = [[1,3],[6,9]], newInterval = [2,5]))
