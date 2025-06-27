@@ -1,11 +1,13 @@
 // Level Order Traversal
 // Time and Space: O(n)
+
+
 var levelOrder = function(root) {
     if (!root) return []
     let allLevels = []
     let levels = [[root]]
     while (levels.length) {
-        let level = levels.shift();
+        let level = levels.shift(); // in reality we should use a proper queue structure
         let curr = []
         let nextLevel = []
         level.forEach(node => {

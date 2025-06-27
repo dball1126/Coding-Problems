@@ -9,7 +9,7 @@ class Node {
 }
 
 /**
- * Time Complexity: O(n * m) n for words...m for word length
+ * Time Complexity: O(n * m) n for  words...m for word length
  * Space Complexity: O(m)
  */
  const longestWord = (words) => {

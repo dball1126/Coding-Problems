@@ -1,0 +1,14 @@
+{
+  "name": "spaced_rep_jan_2025",
+  "version": "1.0.0",
+  "description": "",
+  "main": "alienDict.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "spaced_rep_jan_2025": "file:"
+  }
+}

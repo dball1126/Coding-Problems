@@ -111,5 +111,6 @@ var mergeKLists = function(lists) {
             curr = newNode;
         }
     }
+    if (tail) tail.next = null
     return head;
 };

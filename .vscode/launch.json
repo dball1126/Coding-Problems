@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run Current File",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${file}",
+      "console": "internalConsole"
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:Coding Problems}/swift",
+      "name": "Debug swift (swift)",
+      "program": "${workspaceFolder:Coding Problems}/swift/.build/debug/swift",
+      "preLaunchTask": "swift: Build Debug swift (swift)"
+    },
+    {
+      "type": "swift",
+      "request": "launch",
+      "args": [],
+      "cwd": "${workspaceFolder:Coding Problems}/swift",
+      "name": "Release swift (swift)",
+      "program": "${workspaceFolder:Coding Problems}/swift/.build/release/swift",
+      "preLaunchTask": "swift: Build Release swift (swift)"
+    }
+  ]
+}
